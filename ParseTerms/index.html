@@ -1,0 +1,80 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>News Parser</title>
+        <style>
+            body {
+                text-align: center;
+                background-color: rgb(235, 235, 235);
+            }
+            textarea {
+                outline: none;
+                border: 3px solid rgb(200, 200, 200);
+                background-color: white;
+                display: inline-block;
+                margin: 50px;
+                margin-top: 100px;
+                border-radius: 20px;
+                padding: 20px;
+                width: 40%;
+                height: 60%;
+                resize: none;
+            }
+        </style>
+    </head>
+    <body>
+        <textarea id="input"></textarea>
+        <!-- <textarea id="output"></textarea> -->
+    </body>
+    <script>
+
+        document.querySelector("#input").addEventListener("input", () => {
+            // const res = parseTerms(document.querySelector("#input").value);
+            parseTerms(document.querySelector("#input").value);
+            // document.querySelector("#output").value = res;
+            // download(`News (${res.split("\n").length})`, res);
+        });
+
+        function download(filename, text) {
+            var element = document.createElement('a');
+            element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+            element.setAttribute('download', filename);
+
+            element.style.display = 'none';
+            document.body.appendChild(element);
+
+            element.click();
+
+            document.body.removeChild(element);
+        }
+
+        function parseTerms(input) {
+
+            input = input.replaceAll("\n", "")
+
+            let output = input.split("ENDEND");
+
+            const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+            const today = new Date();
+            const dateDisplay = `${today.getDate()} ${months[today.getMonth()]}`;
+            // console.log(dateDisplay);
+
+            let setSize = 15;
+            for (let start=0; start<output.length; start += setSize) {
+                
+                let targetOutput;
+                if (start + setSize > output.length) {
+                    targetOutput = output.slice(start, output.length - 1);
+                } else {
+                    targetOutput = output.slice(start, start + setSize);
+                }
+                let len = targetOutput.length;
+                targetOutput = targetOutput.map(e => e.split("BREAKBREAK"));
+                targetOutput = targetOutput.map(e => `<span style="color:blue">${e[0].trim()}</span><br>${e[1].trim()};<span style="color:blue">${e[2].trim()}</span><br>${e[3].trim()}`).join("\n");
+                download(`News ${dateDisplay} (${len}).csv`, targetOutput);
+            }
+
+        }
+
+    </script>
+</html>
