@@ -4,47 +4,96 @@
         <title>News Parser</title>
         <style>
             body {
-                text-align: center;
+                margin: 0;
+                padding: 0;
+                /* text-align: center; */
                 background-color: rgb(235, 235, 235);
+                font-family: monospace;
+                font-size: 18px;
+            }
+            #leftCol {
+                box-sizing: border-box;
+                padding: 35px;
+                width: 50%;
+                height: 100%;
+                position: fixed;
+                left: 0px;
+                top: 0px;
+            }
+            #rightCol {
+                box-sizing: border-box;
+                padding: 35px;
+                width: 50%;
+                height: 100%;
+                position: fixed;
+                left: 50%;
+                top: 0px;
             }
             textarea {
                 outline: none;
                 border: 3px solid rgb(200, 200, 200);
                 background-color: white;
                 display: inline-block;
-                margin: 50px;
-                margin-top: 100px;
+                /* margin: 50px; */
+                /* margin-top: 100px; */
                 border-radius: 20px;
                 padding: 20px;
                 width: 80%;
-                height: 60%;
+                height: 100px;
                 resize: none;
             }
+            #parseBtn {
+                display: inline-block;
+                padding: 10px;
+                color: white;
+                border: 3px solid pink;
+                background-color: salmon;
+                border-radius: 15px;
+                transition: .15s all;
+                cursor: pointer;
+            }
+            #parseBtn:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.25);
+            }
+
         </style>
     </head>
     <body>
-        <textarea id="input"></textarea>
+        <div id="leftCol">
+            Paste raw contents:<br><br>
+            <textarea id="input"></textarea><br><br>
+            <div id="parseBtn" onclick="parseTerms()">Parse</div>
+        </div>
+        <div id="rightCol">
+            Results:
+        </div>
     </body>
     <script>
 
-        document.querySelector("#input").addEventListener("input", () => {
-            parseTerms(document.querySelector("#input").value);
-        });
+        // document.querySelector("#input").addEventListener("input", () => {
+        //     parseTerms(document.querySelector("#input").value);
+        // });
 
         function download(filename, text) {
             var element = document.createElement('a');
             element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
             element.setAttribute('download', filename);
+            element.innerHTML = filename;
 
-            element.style.display = 'none';
-            document.body.appendChild(element);
+            // element.style.display = 'none';
+            document.querySelector("#rightCol").appendChild(document.createElement('br'));
+            document.querySelector("#rightCol").appendChild(document.createElement('br'));
+            document.querySelector("#rightCol").appendChild(element);
 
-            element.click();
+            // element.click();
 
-            document.body.removeChild(element);
+            // document.body.removeChild(element);
         }
 
-        function parseTerms(input) {
+        function parseTerms() {
+
+            let input = document.querySelector("#input").value;
 
             input = input.replaceAll("\n", "")
 
