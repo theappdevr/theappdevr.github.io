@@ -56,6 +56,22 @@
                 transform: translateY(-3px);
                 box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.25);
             }
+            .status {
+                display: inline-block;
+                margin-right: 10px;
+                border-radius: 50%;
+                width: 30px;
+                height: 30px;
+                line-height: 30px;
+                text-align: center;
+                color: white;
+            }
+            .statusUnchecked {
+                background-color: goldenrod;
+            }
+            .statusChecked {
+                background-color: lightseagreen;
+            }
 
         </style>
     </head>
@@ -75,15 +91,24 @@
         //     parseTerms(document.querySelector("#input").value);
         // });
 
-        function download(filename, text) {
-            var element = document.createElement('a');
+        function download(filename, text, id) {
+            let element = document.createElement('a');
             element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
             element.setAttribute('download', filename);
             element.innerHTML = filename;
 
+            let elemBtn = document.createElement('div');
+            elemBtn.classList = 'status statusUnchecked';
+            elemBtn.id = `status${id}`;
+            elemBtn.innerHTML = "-";
+
+
+            element.onclick = () => { document.querySelector(`#status${id}`).innerHTML = "✔"; document.querySelector(`#status${id}`).classList = 'status statusChecked'; }
+
             // element.style.display = 'none';
             document.querySelector("#rightCol").appendChild(document.createElement('br'));
             document.querySelector("#rightCol").appendChild(document.createElement('br'));
+            document.querySelector("#rightCol").appendChild(elemBtn);
             document.querySelector("#rightCol").appendChild(element);
 
             // element.click();
@@ -115,7 +140,7 @@
                 let len = targetOutput.length;
                 targetOutput = targetOutput.map(e => e.split("BREAKBREAK"));
                 targetOutput = targetOutput.map(e => `<span style="color:blue">${e[0].trim()}</span><br>${e[1].trim()};<span style="color:blue">${e[2].trim()}</span><br>${e[3].trim()}`).join("\n");
-                download(`Terms ${dateDisplay} (${len}).csv`, targetOutput);
+                download(`Terms ${dateDisplay} (${len}).csv`, targetOutput, start);
             }
 
         }
