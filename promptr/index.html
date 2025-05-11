@@ -1,0 +1,58 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Promptr</title>
+        <link rel="stylesheet" href="css/main.css">
+    </head>
+    <body>
+        <div id="leftPane" style="width:20%">
+            <div class="toggleBtn" id="toggleBtnLeftPane" style="margin: 10px" onclick="toggleLeftPane()">✕</div>
+            <div id="promptsList"></div>
+            <div onclick="toggleAdmin()" id="toggleAdminBtn" class="leftSideBarBtn">Adm</div>
+            <div onclick="populatePrompts('root')" id="toggleAdminBtn" class="leftSideBarBtn">>_</div>
+        </div>
+        <div id="rightPane" style="width:20%">
+            <div id="controlsDisplay" class="sidebarDisplay">
+                <div class="controlsBtn controlsBtnGreen" style="width:calc(100% - 10px)" onclick="logStart()">▶ Start</div>
+            </div>
+            <div class="toggleBtn" id="toggleBtnRightPane" style="margin: 10px; float: right" onclick="toggleRightPane()">✕</div>
+            <div id="logDisplay" class="sidebarDisplay"></div>
+            <div id="addNoteDisplay" class="sidebarDisplay">
+                <textarea id="addNoteTextarea" style="transform: translateY(0); min-width:calc(100% - 20px); outline:none; max-width:calc(100% - 20px); margin: 10px"></textarea>
+                <div class="controlsBtn controlsBtnGray" style="width:calc(100% - 10px); text-align: center;" onclick="addNote()">Add note</div>
+            </div>
+        </div>
+        <div id="mainPane" style="width:60%">
+            <div id="mainDisplay">
+                <div id="scriptDisplay">
+                    <h2>Script</h2><div class="toggleBtn" id="toggleBtnScript" style="margin-left: 10px" onclick="toggleScript()">+</div>
+                </div>
+                <div id="gridFilters">
+                    <h2>Terms</h2><div class="toggleBtn" id="toggleBtnTerms" style="margin-left: 10px" onclick="toggleTerms()">✕</div>
+                    <datalist id="setsToFilter"></datalist>
+                    <input type="text" id="setToFilter" list="setsToFilter" class="adminInput" placeholder="Add set" style="transform:translateY(-5px)">
+                    <div class="adminMiniBtn adminMiniBtnAdd" id="activateSetBtn" onclick="activateSet()">+</div>
+                </div>
+                <div id="activeSets"></div>
+                <div id="promptDisplay"></div>
+                <div id="termsGrid">
+                </div>
+            </div>
+            <div id="adminDisplay">
+                <h3 onclick="loadTableTerms()" class="tableHead" id="tableHeadTerms">Terms</h3><h3 onclick="loadTableSets(this)" class="tableHead" id="tableHeadSets">Sets</h3><h3 onclick="loadTablePrompts(this)" class="tableHead" id="tableHeadPrompts">Prompts</h3><h3 onclick="loadTableLogs(this)" class="tableHead" id="tableHeadLogs">Logs</h3><input id="adminFilters">
+                <br>
+                <div id="adminAddsContainer">
+                    <input class="adminInput" id="adminAddTermName" placeholder="New term"><datalist id="setNamesPlaceholder"></datalist><input class="adminInput" list="availableSets" id="adminAddTermSets" placeholder="Set" ><div class="adminAddBtn" onclick="processAddTerm()">Add term</div><br>
+                    <br><input class="adminInput" id="adminBulkAddTerms" placeholder="Paste terms data"><div class="adminAddBtn" onclick="processAddBulkTerms()">Add bulk terms</div><br>
+                    <br><input class="adminInput" id="adminAddSet" placeholder="New set"><div class="adminAddBtn" onclick="processAddTermSet()">Add set</div><br>
+                    <input class="adminInput" id="adminAddPrompt" placeholder="New prompt"><textarea placeholder="Script" class="adminInput" id="adminAddPromptScript"></textarea><div class="adminAddBtn" onclick="processAddPrompt()">Add prompt</div>
+                </div>
+                <table id="adminTable"></table>
+            </div>
+        </div>
+    </body>
+    <script src="js/snippets.js"></script>
+    <script src="js/nav.js"></script>
+    <script src="js/admin.js"></script>
+    <script src="js/main.js"></script>
+</html>
